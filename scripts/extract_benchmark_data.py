@@ -97,25 +97,21 @@ def find_execution_result_files(exec_result_dir, instance_id):
 
 
 def get_benchmark_field_mapping(benchmark_name):
-    """Get field name mappings for different benchmarks"""
-    field_mappings = {
+    """Get field mapping for different benchmarks"""
+    mappings = {
         'spider2-lite': {
             'question_field': 'question',
-            'db_field': 'db'
         },
         'spider2-snow': {
-            'question_field': 'instruction', 
-            'db_field': 'db_id'
+            'question_field': 'instruction',
         },
         'spider2-dbt': {
-            'question_field': 'instruction',
-            'db_field': 'type'  # spider2-dbt uses 'type' instead of db
+            'question_field': 'question',
         }
     }
     
-    return field_mappings.get(benchmark_name, {
-        'question_field': 'question',
-        'db_field': 'db'
+    return mappings.get(benchmark_name, {
+        'question_field': 'question',  # default
     })
 
 
@@ -157,8 +153,8 @@ Examples:
   python extract_benchmark_data.py spider2-snow
   python extract_benchmark_data.py spider2-dbt
   
-  # Custom field names
-  python extract_benchmark_data.py my-benchmark --question-field instruction --db-field database_type
+  # Custom field name
+  python extract_benchmark_data.py my-benchmark --question-field instruction
         """
     )
     parser.add_argument(
@@ -175,11 +171,6 @@ Examples:
         help='Field name containing the question/instruction (auto-detected if not specified)',
         default=None
     )
-    parser.add_argument(
-        '--db-field', 
-        help='Field name containing the database/type information (auto-detected if not specified)',
-        default=None
-    )
     
     args = parser.parse_args()
     benchmark_name = args.benchmark
@@ -192,15 +183,14 @@ Examples:
     print(f"Processing benchmark: {benchmark_name}")
     
     # Get field mappings (auto-detect or use provided values)
-    if args.question_field and args.db_field:
+    if args.question_field:
         field_mapping = {
             'question_field': args.question_field,
-            'db_field': args.db_field
         }
-        print(f"Using custom field mapping: question='{args.question_field}', db='{args.db_field}'")
+        print(f"Using custom field mapping: question='{args.question_field}'")
     else:
         field_mapping = get_benchmark_field_mapping(benchmark_name)
-        print(f"Auto-detected field mapping: question='{field_mapping['question_field']}', db='{field_mapping['db_field']}'")
+        print(f"Auto-detected field mapping: question='{field_mapping['question_field']}'")
     
     # Get benchmark-specific paths
     jsonl_file, sql_dir, exec_result_dir, output_dir = get_benchmark_paths(benchmark_name, repo_root)

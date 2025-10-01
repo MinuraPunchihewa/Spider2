@@ -11,11 +11,12 @@ Extracts and combines data from Spider2 benchmark datasets into a single CSV fil
 **Features:**
 - Combines questions, SQL queries, and execution results
 - Supports multiple Spider2 benchmarks (spider2-lite, spider2-snow, spider2-dbt)
-- Auto-detects field names for different benchmark types
-- Supports custom field name mapping via command line arguments
+- Auto-detects question field names for different benchmark types (question vs instruction)
+- Supports custom question field name mapping via command line arguments
 - Uses relative paths for repository portability
 - Handles multiple execution result files per instance
 - Saves output in the appropriate benchmark's evaluation suite folder
+- Includes all questions even if SQL queries or results are missing
 
 **Usage:**
 ```bash
@@ -31,8 +32,8 @@ python scripts/extract_benchmark_data.py spider2-dbt
 # Custom output filename
 python scripts/extract_benchmark_data.py spider2-lite --output-name my_custom_output
 
-# Custom field names (for non-standard benchmarks)
-python scripts/extract_benchmark_data.py my-benchmark --question-field instruction --db-field database_type
+# Custom question field name (for non-standard benchmarks)
+python scripts/extract_benchmark_data.py my-benchmark --question-field instruction
 ```
 
 **Output:**
@@ -40,12 +41,12 @@ python scripts/extract_benchmark_data.py my-benchmark --question-field instructi
 - Custom location: `{benchmark}/evaluation_suite/gold/{custom_name}.csv`
 
 **Field Mapping:**
-The script automatically detects field names based on benchmark type:
-- `spider2-lite`: uses `question` and `db` fields
-- `spider2-snow`: uses `instruction` and `db_id` fields  
-- `spider2-dbt`: uses `instruction` and `type` fields
+The script automatically detects question field names based on benchmark type:
+- `spider2-lite`: uses `question` field
+- `spider2-snow`: uses `instruction` field  
+- `spider2-dbt`: uses `question` field
 
-You can override auto-detection with `--question-field` and `--db-field` arguments.
+You can override auto-detection with the `--question-field` argument.
 
 **Output CSV Structure:**
 - `question`: The natural language question or instruction
