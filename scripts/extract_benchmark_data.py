@@ -262,20 +262,20 @@ Examples:
         
         # Create base row with only essential fields
         base_row = {
-            'question': item.get(field_mapping['question_field'], ''),
-            'sql_query': sql_query or '',
+            'Question': item.get(field_mapping['question_field'], ''),
+            'SQL Query': sql_query or '',
         }
         
         # If there are multiple execution results, create separate rows
         if exec_results:
-            for suffix, result_content in exec_results.items():
+            for _, result_content in exec_results.items():
                 row = base_row.copy()
-                row['execution_result'] = result_content
+                row['Expected Answer'] = result_content
                 combined_data.append(row)
         else:
             # Always include the question even if no execution result found
             row = base_row.copy()
-            row['execution_result'] = ''
+            row['Expected Answer'] = ''
             combined_data.append(row)
     
     print(f"\nSummary:")
@@ -286,7 +286,7 @@ Examples:
     
     # Write to CSV
     if combined_data:
-        fieldnames = ['question', 'sql_query', 'execution_result']
+        fieldnames = ['Question', 'SQL Query', 'Expected Answer']
         
         try:
             with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
