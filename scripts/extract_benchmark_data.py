@@ -260,23 +260,22 @@ Examples:
             elif missing_exec == 11:
                 print("... (suppressing further execution result warnings)")
         
-        # Create base row with only essential fields
-        base_row = {
+        # Create one row per question with combined execution results
+        row = {
             'Question': item.get(field_mapping['question_field'], ''),
             'SQL Query': sql_query or '',
         }
         
-        # If there are multiple execution results, create separate rows
+        # Combine multiple execution results with ' OR ' separated by newlines
         if exec_results:
-            for _, result_content in exec_results.items():
-                row = base_row.copy()
-                row['Expected Answer'] = result_content
-                combined_data.append(row)
+            # Sort by suffix to ensure deterministic ordering (main first if present)
+            sorted_results = sorted(exec_results.items(), key=lambda x: (x[0] != 'main', x[0]))
+            combined_result = '\n OR \n'.join(content for _, content in sorted_results)
+            row['Expected Answer'] = combined_result
         else:
-            # Always include the question even if no execution result found
-            row = base_row.copy()
             row['Expected Answer'] = ''
-            combined_data.append(row)
+        
+        combined_data.append(row)
     
     print(f"\nSummary:")
     print(f"Total questions processed: {len(questions_data)}")

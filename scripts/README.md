@@ -86,12 +86,21 @@ Execution results directory: /path/to/Spider2/spider2-lite/evaluation_suite/gold
 Output file: /path/to/Spider2/spider2-lite/evaluation_suite/gold/spider2-lite_combined_data.csv
 
 Found 547 questions in JSONL file
+Warning: SQL file not found for sf_bq029
+Warning: SQL file not found for sf_bq026
+Warning: SQL file not found for sf_bq027
+Warning: SQL file not found for sf_bq211
+Warning: SQL file not found for sf_bq212
+Warning: SQL file not found for sf_bq214
+Warning: SQL file not found for sf_bq247
+Warning: SQL file not found for sf_bq215
+Warning: SQL file not found for sf_bq420
+Warning: SQL file not found for sf_bq207
+... (suppressing further SQL file warnings)
+
 Summary:
 Total questions processed: 547
-Missing SQL files: 297
-Missing execution results: 0
-Total combined rows created: 631
-
-✅ Data successfully written to: /path/to/Spider2/spider2-lite/evaluation_suite/gold/spider2-lite_combined_data.csv
-📊 Output file size: 70.5 MB
+Questions with SQL queries: 250
+Questions with execution results: 547
+Total rows in output: 547 (all questions included)
 ```
