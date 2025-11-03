@@ -103,4 +103,7 @@ Total questions processed: 547
 Questions with SQL queries: 250
 Questions with execution results: 547
 Total rows in output: 547 (all questions included)
+
+✅ Data successfully written to: /path/to/Spider2/spider2-lite/evaluation_suite/gold/spider2-lite_combined_data.csv
+📊 Output file size: 70.4 MB
 ```
